@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-
+import numpy as np
 
 class TicTacToe():
     
     import numpy as np
     
     def __init__(self):
-        self.next_player = 1
+        self.next_player = 1 # 1 or 2
         self.game_over = False
         self.board = np.zeros((3,3))
         
@@ -35,5 +35,22 @@ class TicTacToe():
                 
     def MakeMove(self, pos):
         # make the move in pos, update the board and next_player
+        spots = self.avaiableSpots(pos)
+        emptySpots = len(spots[0])
+        randIdx = np.random.randint(0,emptySpots)
+        pos[spots[0][randIdx],spots[1][randIdx]]=1
+        if self.next_player==1:
+            self.next_player=2
+        else:
+            self.next_player=1
         
+    def avaiableSpots(self,pos):
+        return np.where(pos==0)
+        
+    def update(self,learningParams):
+        if not self.CheckGame():
+            self.MakeMove(self.board)
+            self.board = -1*self.board
+            
+
     
