@@ -31,24 +31,32 @@ class TicTacToe():
         
     def CheckGame(self):
         # check if the game is over
-        return False
+        for i in range(3):
+            if all(self.board[i,:])==1 or all(self.board[:,i])==1:
+                self.game_over=True
+        if all(np.diag(self.board))==1  or all(np.diag(np.fliplr(self.board)))==1:
+            self.game_over=True
                 
     def MakeMove(self, pos):
         # make the move in pos, update the board and next_player
-        spots = self.avaiableSpots(pos)
-        emptySpots = len(spots[0])
-        randIdx = np.random.randint(0,emptySpots)
-        pos[spots[0][randIdx],spots[1][randIdx]]=1
-        if self.next_player==1:
-            self.next_player=2
+        X= self.avaiableSpots()
+        Y = [3*a+b for (a,b) in zip(X[0],X[1])]
+        pos_Index = 3*pos[0]+pos[1]
+        if pos_Index==any(Y):
+            self.board[pos[0],pos[1]]=1
+            if self.next_player==1:
+                self.next_player=2
+            else:
+                self.next_player=1
         else:
-            self.next_player=1
+            return 0
         
-    def avaiableSpots(self,pos):
-        return np.where(pos==0)
+    def avaiableSpots(self):
+        return np.where(self.board==0)
         
+
     def update(self,learningParams):
-        if not self.CheckGame():
+        if not self.game_over:
             self.MakeMove(self.board)
             self.board = -1*self.board
             
