@@ -39,26 +39,22 @@ class TicTacToe():
                 
     def MakeMove(self, pos):
         # make the move in pos, update the board and next_player
-        X= self.avaiableSpots()
+        X= np.where(self.board==0)
         Y = [3*a+b for (a,b) in zip(X[0],X[1])]
         pos_Index = 3*pos[0]+pos[1]
-        if pos_Index==any(Y):
+        if pos_Index in Y:
             self.board[pos[0],pos[1]]=1
+            self.CheckGame()
+            self.Update()
+
+
+    def Update(self):
+        if not self.game_over:
             if self.next_player==1:
                 self.next_player=2
+                self.board = -1*self.board
             else:
                 self.next_player=1
-        else:
-            return 0
-        
-    def avaiableSpots(self):
-        return np.where(self.board==0)
-        
-
-    def update(self,learningParams):
-        if not self.game_over:
-            self.MakeMove(self.board)
-            self.board = -1*self.board
             
 
     
