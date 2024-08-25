@@ -51,7 +51,7 @@ class TicTacToe():
         elif np.sum(np.diag(np.fliplr(self.board)) == 1) == 3:
             self.game_over = True
             self.outcome = self.next_player
-        elif np.all(game.board != 0):
+        elif np.all(self.board != 0):
             self.game_over = True
             self.outcome = 0.5
 

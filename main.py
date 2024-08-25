@@ -15,15 +15,20 @@ def RunGame():
     
     # play the game and store the moves
     data = []
+    moves = 0
     while not game.game_over:
         b = np.array(game.board)
         p = int(game.next_player)
         move = player.GetMove(game.board)
+        valid = False
         for m in move:
             pos = [m // 3, m % 3]
             valid = game.MakeMove(pos)
             if valid:
+                moves +=1
                 break
+        if (moves > 9) or not valid:
+            return []
         data.append([b, m, p])
         
     # assert the outcome
@@ -46,5 +51,7 @@ def RunTrials(trials=1):
     
     
     
+for i in range(100):
+    x = RunTrials(1)
+    print('-------------------------------------------------------------------------------------------------------------')
     
-x = RunTrials(1)
