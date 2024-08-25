@@ -3,13 +3,13 @@
 import numpy as np
 
 class TicTacToe():
-    
-    import numpy as np
-    
+
+
     def __init__(self):
-        self.next_player = 1 # 1 or 2
+        self.next_player = 0
         self.game_over = False
         self.board = np.zeros((3,3))
+        
         
     def PrintBoard(self):
         b = ''
@@ -29,17 +29,19 @@ class TicTacToe():
                 b += 11*'_' + '\n'
         print(b)
         
+        
     def CheckGame(self):
         # check if the game is over
         for i in range(3):
             if all(self.board[i,:])==1 or all(self.board[:,i])==1:
                 self.game_over=True
-        if all(np.diag(self.board))==1  or all(np.diag(np.fliplr(self.board)))==1:
+        if all(np.diag(self.board))==1 or all(np.diag(np.fliplr(self.board)))==1:
             self.game_over=True
                 
+            
     def MakeMove(self, pos):
         # make the move in pos, update the board and next_player
-        X= np.where(self.board==0)
+        X = np.where(self.board==0)
         Y = [3*a+b for (a,b) in zip(X[0],X[1])]
         pos_Index = 3*pos[0]+pos[1]
         if pos_Index in Y:
@@ -50,11 +52,5 @@ class TicTacToe():
 
     def Update(self):
         if not self.game_over:
-            if self.next_player==1:
-                self.next_player=2
-                self.board = -1*self.board
-            else:
-                self.next_player=1
-            
-
-    
+            self.next_player = (self.next_player + 1)  % 2
+            self.board = -1*self.board
