@@ -27,15 +27,18 @@ class TicTacToe():
             b += '\n'
             if i < 2:
                 b += 11*'_' + '\n'
-        print(b)
+        print(b, self.board)
         
         
     def CheckGame(self):
         # check if the game is over
-        for i in range(3):
-            if all(self.board[i,:])==1 or all(self.board[:,i])==1:
-                self.game_over=True
-        if all(np.diag(self.board))==1 or all(np.diag(np.fliplr(self.board)))==1:
+        if np.any((self.board == 1).sum(axis=0) == 3):
+            self.game_over=True
+        elif np.any((self.board == 1).sum(axis=1) == 3):
+            self.game_over=True
+        elif np.sum(np.diag(self.board) == 1) == 3:
+            self.game_over=True
+        elif np.sum(np.diag(np.fliplr(self.board)) == 1) == 3:
             self.game_over=True
                 
             
