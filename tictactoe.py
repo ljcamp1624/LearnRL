@@ -4,11 +4,18 @@ import numpy as np
 
 class TicTacToe():
 
-
     def __init__(self):
         self.next_player = 0
         self.game_over = False
         self.board = np.zeros((3,3))
+        self.outcome = None
+        
+        
+    def Reset(self):
+        self.next_player = 0
+        self.game_over = False
+        self.board = np.zeros((3,3))
+        self.outcome = None
         
         
     def PrintBoard(self):
@@ -27,20 +34,27 @@ class TicTacToe():
             b += '\n'
             if i < 2:
                 b += 11*'_' + '\n'
-        print(b, self.board)
+        print(b)
         
         
     def CheckGame(self):
         # check if the game is over
         if np.any((self.board == 1).sum(axis=0) == 3):
-            self.game_over=True
+            self.game_over = True
+            self.outcome = self.next_player
         elif np.any((self.board == 1).sum(axis=1) == 3):
-            self.game_over=True
+            self.game_over = True
+            self.outcome = self.next_player
         elif np.sum(np.diag(self.board) == 1) == 3:
-            self.game_over=True
+            self.game_over = True
+            self.outcome = self.next_player
         elif np.sum(np.diag(np.fliplr(self.board)) == 1) == 3:
-            self.game_over=True
-                
+            self.game_over = True
+            self.outcome = self.next_player
+        elif np.all(game.board != 0):
+            self.game_over = True
+            self.outcome = 0.5
+
             
     def MakeMove(self, pos):
         # make the move in pos, update the board and next_player
@@ -51,9 +65,11 @@ class TicTacToe():
             self.board[pos[0],pos[1]]=1
             self.CheckGame()
             self.Update()
+            return True
+        return False
 
 
     def Update(self):
         if not self.game_over:
-            self.next_player = (self.next_player + 1)  % 2
+            self.next_player = (self.next_player + 1) % 2
             self.board = -1*self.board

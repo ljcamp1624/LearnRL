@@ -37,11 +37,12 @@ class Player():
         cum_move_proba = np.cumsum(move_proba)
         move_list = []
         for i in range(9):
-            n = np.argmax(cum_move_proba > np.random.rand())
-            move_proba[n] = 0
-            cum_move_proba = np.cumsum(move_proba)
+            n = int(np.argmax(cum_move_proba > np.random.rand()))
             move_list.append(n)
-            if np.any(np.isnan(m2c)):
+            move_proba[n] = 0
+            if np.sum(move_proba) == 0:
                 break
+            move_proba = move_proba / np.sum(move_proba)
+            cum_move_proba = np.cumsum(move_proba)
         return move_list
     
